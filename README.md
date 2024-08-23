@@ -18,28 +18,28 @@ Non-existing users should be created as they post their first message. The appli
 
 Alice can publish messages to a personal timeline.
 ```bash
-~ % Alice /post What a wonderfully sunny day!
+Alice /post What a wonderfully sunny day!
 ```
 
 <u>Reading</u>
 
 Bob can view Alice’s timeline
 ```bash
-~ % Bob /timeline Alice
+Bob /timeline Alice
 ```
 
 <u>Following</u>
 
 Charlie can subscribe to Alice’s timeline and view an aggregate list of all subscriptions
 ```bash
-~ % Charlie /follow Alice
+Charlie /follow Alice
 ```
 
 <u>Wall</u>
 
 Charlie can view an aggregate list of all the people he has subscribed to follow.
 ```bash
-~ % Charlie /wall
+Charlie /wall
 ```
 
 Note: If Charlie follows Alice and Bob he will see a time sequenced list of post from both of them on his wall. That is to say the post are displayed with the most recent at the top.
@@ -50,7 +50,7 @@ Note: If Charlie follows Alice and Bob he will see a time sequenced list of post
 
 Bob can link to Charlie in a message using ‘@’.
 ```bash
-~ % Bob /post @Charlie what are your plans tonight?
+Bob /post @Charlie what are your plans tonight?
 ```
 
 Note: this is not a new command, just an expansion of how the /post command works. Any mentions should appear on a user’s wall even if they do not follow the user.
@@ -59,10 +59,10 @@ Note: this is not a new command, just an expansion of how the /post command work
 
 Mallory can send a private message to Alice.
 ```bash
-~ % Mallory /send_message Alice
+Mallory /send_message Alice
 ```
 
 Alice can view all private messages
 ```bash
-~ % Alice /view_messages
+Alice /view_messages
 ```
