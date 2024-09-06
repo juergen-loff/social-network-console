@@ -1,0 +1,18 @@
+# Jetbrains
+
+.idea/
+
+# Build directories
+
+src/**/*/bin/
+src/**/*/obj/
+tests/**/*/bin/
+tests/**/*/obj/
+
+# MacOS
+
+.DS_Store
+
+# User settings
+
+SocialNetwork.sln.DotSettings.user
