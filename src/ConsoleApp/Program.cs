@@ -2,7 +2,7 @@
 
 using ConsoleApp;
 
-// Setup.DisplayWelcomeMessage();
+Setup.DisplayWelcomeMessage();
 Console.WriteLine("Welcome to the social network!");
 
 var socialService = new SocialService();
@@ -10,7 +10,7 @@ var socialService = new SocialService();
 string? userInput;
 do
 {
-    socialService.DisplayMenu();
+    SocialService.DisplayMenu();
     userInput = Console.ReadLine();
 
     if(!string.IsNullOrWhiteSpace(userInput) && !string.Equals(userInput, "exit"))

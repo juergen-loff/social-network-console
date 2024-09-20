@@ -18,10 +18,11 @@ public class Tests
     public void Post_UserExists_ShouldReturnTrue()
     {
         // Arrange
-        const string command = "Alice /post What a wonderfully sunny day!";
+        const string username = "Alice";
+        const string message = "What a wonderfully sunny day!";
 
         // Act
-        var action = _socialService.Handle(command);
+        var action = _socialService.Post(username, message);
 
         // Assert
         Assert.That(action, Is.True);
@@ -31,14 +32,15 @@ public class Tests
     public void Mention_UserExists_ShouldReturnTrue()
     {
         // Arrange
-        const string command = "Bob /post @Charlie what are your plans tonight?";
-        var user = new User("Bob");
+        const string username = "Bob";
+        const string message = "@Charlie what are your plans tonight?";
+        var user = new User(username);
         var secondUser = new User("Charlie");
         _socialService._users.Add(user);
         _socialService._users.Add(secondUser);
 
         // Act
-        var action = _socialService.Handle(command);
+        var action = _socialService.Post(username, message);
 
         // Assert
         Assert.That(action, Is.True);
@@ -48,14 +50,15 @@ public class Tests
     public void Timeline_UserExists_ShouldReturnTrue()
     {
         // Arrange
-        const string command = "Bob /timeline Alice";
+        const string username = "Bob";
+        const string secondUsername = "Alice";
         var user = new User("Bob");
         var secondUser = new User("Alice");
         _socialService._users.Add(user);
         _socialService._users.Add(secondUser);
 
         // Act
-        var action = _socialService.Handle(command);
+        var action = _socialService.Timeline(username, secondUsername);
 
         // Assert
         Assert.That(action, Is.True);
@@ -65,14 +68,15 @@ public class Tests
     public void Follow_UserExists_ShouldReturnTrue()
     {
         // Arrange
-        const string command = "Charlie /follow Alice";
+        const string username = "Charlie";
+        const string secondUsername = "Alice";
         var user = new User("Charlie");
         var secondUser = new User("Alice");
         _socialService._users.Add(user);
         _socialService._users.Add(secondUser);
 
         // Act
-        var action = _socialService.Handle(command);
+        var action = _socialService.Follow(username, secondUsername);
 
         // Assert
         Assert.That(action, Is.True);
@@ -82,12 +86,12 @@ public class Tests
     public void Wall_UserExists_ShouldReturnTrue()
     {
         // Arrange
-        const string command = "Charlie /wall";
+        const string username = "Charlie";
         var user = new User("Charlie");
         _socialService._users.Add(user);
 
         // Act
-        var action = _socialService.Handle(command);
+        var action = _socialService.Wall(username);
 
         // Assert
         Assert.That(action, Is.True);

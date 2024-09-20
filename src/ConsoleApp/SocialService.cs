@@ -53,16 +53,19 @@ public class SocialService
         return result;
     }
 
-    public void DisplayMenu()
+    public static void DisplayMenu()
     {
-        Console.WriteLine("Commands");
+        Console.WriteLine("*********************************************************************");
+        Console.WriteLine("Commands:");
         Console.WriteLine("\t/post - Usage: Alice /post What a wonderfully sunny day!");
         Console.WriteLine("\t/timeline - Usage: Bob /timeline Alice");
         Console.WriteLine("\t/follow - Usage: Charlie /follow Alice");
         Console.WriteLine("\t/wall - Usage: Charlie /wall");
+        Console.WriteLine("\texit - Quit the application");
+        Console.WriteLine("*********************************************************************");
     }
 
-    private bool Post(string username, string msg)
+    public bool Post(string username, string msg)
     {
         // search list of users with the username
         var user = new User(" ");
@@ -134,7 +137,7 @@ public class SocialService
         return true;
     }
 
-    private bool Timeline(string username, string secondUsername)
+    public bool Timeline(string username, string secondUsername)
     {
         // search list of users with the username
         var user = new User(" ");
@@ -171,7 +174,7 @@ public class SocialService
         return true;
     }
 
-    private bool Follow(string username, string secondUsername)
+    public bool Follow(string username, string secondUsername)
     {
       // search list of users with the username
         var user  = new User(" ");
@@ -210,7 +213,7 @@ public class SocialService
         return true;
     }
 
-    private bool Wall(string username)
+    public bool Wall(string username)
     {
         // search list of users with the username
         var user  = new User(" ");
@@ -242,7 +245,7 @@ public class SocialService
         return true;
     }
 
-    private bool SendMessage(string username, string secondUsername, string message)
+    public bool SendMessage(string username, string secondUsername, string message)
     {
         return false;
     }
