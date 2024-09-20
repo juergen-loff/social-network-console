@@ -2,8 +2,18 @@
 
 using ConsoleApp;
 
-Setup.DisplayWelcomeMessage();
+// Setup.DisplayWelcomeMessage();
 Console.WriteLine("Welcome to the social network!");
 
-Console.WriteLine("Press any key to exit...");
-Console.ReadKey();
+var socialService = new SocialService();
+
+string? userInput;
+do
+{
+    socialService.DisplayMenu();
+    userInput = Console.ReadLine();
+
+    if(!string.IsNullOrWhiteSpace(userInput) && !string.Equals(userInput, "exit"))
+        socialService.Handle(userInput);
+
+} while (!string.Equals(userInput, "exit"));
