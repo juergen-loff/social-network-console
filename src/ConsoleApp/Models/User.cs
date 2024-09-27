@@ -6,7 +6,7 @@ public class User(string name)
 
     public List<TimelineMessage> Timeline { get; set; } = [];
 
-    public List<string> PrivateMessages { get; set; } = [];
+    public List<PrivateMessage> PrivateMessages { get; set; } = [];
 
     public List<User> Subscriptions { get; set; } = [];
 
@@ -28,6 +28,21 @@ public class User(string name)
         foreach (var user in Subscriptions)
         {
             Console.WriteLine($"\nName: {user.Name}\n");
+            Console.WriteLine("================================================\n");
+        }
+    }
+
+    public void PrintPrivateMessages()
+    {
+        Console.Clear();
+        Console.WriteLine($"Messages for {Name}\n================================================");
+        foreach (var message in PrivateMessages)
+        {
+            Console.WriteLine($"\nSender: {message.Sender.Name}\n");
+            Console.WriteLine($"\nRecipient: {message.Recipient.Name}\n");
+            Console.WriteLine($"\nTimestamp: {message.Timestamp}\n");
+            Console.WriteLine("================================================\n");
+            Console.WriteLine($"{message.Message}");
             Console.WriteLine("================================================\n");
         }
     }

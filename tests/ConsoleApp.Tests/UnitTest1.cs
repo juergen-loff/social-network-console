@@ -101,10 +101,16 @@ public class Tests
     public void SendMessage_UserExists_ShouldReturnTrue()
     {
         // Arrange
-        const string command = "Mallory /send_message Alice";
+        const string username = "Mallory";
+        const string secondUsername = "Alice";
+        const string message = "Hi there!";
+        var user = new User(username);
+        var secondUser = new User(secondUsername);
+        _socialService._users.Add(user);
+        _socialService._users.Add(secondUser);
 
         // Act
-        var action = _socialService.Handle(command);
+        var action = _socialService.SendMessage(username, secondUsername, message);
 
         // Assert
         Assert.That(action, Is.True);
@@ -114,10 +120,12 @@ public class Tests
     public void ViewMessages_TimelineNotEmpty_ShouldReturnTrue()
     {
         // Arrange
-        const string command = "Alice /view_messages";
+        const string username = "Mallory";
+        var user = new User(username);
+        _socialService._users.Add(user);
 
         // Act
-        var action = _socialService.Handle(command);
+        var action = _socialService.ViewMessages(username);
 
         // Assert
         Assert.That(action, Is.True);

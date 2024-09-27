@@ -38,9 +38,13 @@ public class SocialService
                 break;
 
             case "/send_message":
+                secondUsername = commandArray[2].Split(" ", 2)[0];
+                message = commandArray[2].Split(" ", 2)[1];
+                result = SendMessage(username, secondUsername, message);
                 break;
 
             case "/view_messages":
+                result = ViewMessages(username);
                 break;
             default:
                 Console.WriteLine("Invalid command");
@@ -58,9 +62,12 @@ public class SocialService
         Console.WriteLine("*********************************************************************");
         Console.WriteLine("Commands:");
         Console.WriteLine("\t/post - Usage: Alice /post What a wonderfully sunny day!");
+        Console.WriteLine("\t\tMention a user: Bob /post @Charlie what are your plans tonight?");
         Console.WriteLine("\t/timeline - Usage: Bob /timeline Alice");
         Console.WriteLine("\t/follow - Usage: Charlie /follow Alice");
         Console.WriteLine("\t/wall - Usage: Charlie /wall");
+        Console.WriteLine("\t/send_message - Usage: Mallory /send_message Alice Hi There?");
+        Console.WriteLine("\t/view_messages - Usage: Alice /view_messages");
         Console.WriteLine("\texit - Quit the application");
         Console.WriteLine("*********************************************************************");
     }
@@ -77,6 +84,8 @@ public class SocialService
         {
             var messageArray = msg.Split(" ", 2).ToArray();
             mention = messageArray[0].Substring(1);
+            secondUser.Name = mention;
+
             Console.WriteLine(mention);
             message = messageArray[1];
             Console.WriteLine(message);
@@ -105,12 +114,11 @@ public class SocialService
             {
                 try
                 {
-                    var result = _users.First(x => x.Name == username);
+                    var result = _users.First(x => x.Name == secondUser.Name);
                     secondUser = result;
                 }
                 catch (Exception ex)
                 {
-                    secondUser.Name = username;
                     _users.Add(secondUser);
                 }
             }
@@ -122,17 +130,17 @@ public class SocialService
             _users.Add(user);
         }
 
+        Console.WriteLine(mention);
         if (!string.IsNullOrWhiteSpace(mention))
         {
             secondUser.Timeline.Add(timelineMessage);
+            secondUser.PrintTimelineMessages();
         }
         else
         {
             user.Timeline.Add(timelineMessage);
+            user.PrintTimelineMessages();
         }
-
-        var addedUser = _users.First(x => x.Name == username);
-        addedUser.PrintTimelineMessages();
 
         return true;
     }
@@ -247,11 +255,81 @@ public class SocialService
 
     public bool SendMessage(string username, string secondUsername, string message)
     {
-        return false;
+        // search list of users with the username
+        User user;
+        User secondUser;
+
+        if (_users.Any())
+        {
+            try
+            {
+                var result = _users.First(x => x.Name == username);
+                user = result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: User does not exist");
+                return false;
+            }
+
+            try
+            {
+                var result = _users.First(x => x.Name == secondUsername);
+                secondUser = result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: User does not exist");
+                return false;
+            }
+
+        }
+        else
+        {
+            Console.WriteLine("Please post a message to create an account");
+            return false;
+        }
+
+        var privateMessage = new PrivateMessage
+        {
+            Sender = user,
+            Recipient = secondUser,
+            Message = message,
+            Timestamp = DateTime.Now,
+            MessageType = MessageTypes.Sent
+        };
+
+        user.PrivateMessages.Add(privateMessage);
+
+        privateMessage.MessageType = MessageTypes.Received;
+        secondUser.PrivateMessages.Add(privateMessage);
+
+        return true;
     }
 
-    private bool ViewMessages(string username)
+    public bool ViewMessages(string username)
     {
-        return false;
+        // search list of users with the username
+        var user = new User(" ");
+
+        if (_users.Any())
+        {
+            try
+            {
+                var result1 = _users.First(x => x.Name == username);
+                user = result1;
+            }
+            catch (Exception ex)
+            {
+                user.Name = username;
+                _users.Add(user);
+            }
+        }
+
+        if (string.IsNullOrWhiteSpace(user.Name)) return false;
+
+        user.PrintPrivateMessages();
+
+        return true;
     }
 }
