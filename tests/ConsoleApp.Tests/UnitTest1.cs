@@ -1,8 +1,8 @@
 using ConsoleApp.Models;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace ConsoleApp.Tests;
 
+[TestFixture]
 public class Tests
 {
 
@@ -15,7 +15,7 @@ public class Tests
     }
 
     [Test]
-    public void Post_UserExists_ShouldReturnTrue()
+    public void Post_NewUser_ShouldReturnTrueAndUserAddedAndMessageAdded()
     {
         // Arrange
         const string username = "Alice";
@@ -25,11 +25,19 @@ public class Tests
         var action = _socialService.Post(username, message);
 
         // Assert
-        Assert.That(action, Is.True);
+        var user = _socialService._users.Find(x => x.Name == username);
+        Assert.Multiple(() =>
+        {
+            Assert.That(action, Is.True);
+            Assert.That(user, Is.Not.Null);
+
+            var timelineMessage = user!.Timeline.Find(x => x.Message == message);
+            Assert.That(timelineMessage, Is.Not.Null);
+        });
     }
 
     [Test]
-    public void Mention_UserExists_ShouldReturnTrue()
+    public void Mention_UserExists_ShouldReturnTrueAndTimelineMessageAdded()
     {
         // Arrange
         const string username = "Bob";
@@ -43,7 +51,11 @@ public class Tests
         var action = _socialService.Post(username, message);
 
         // Assert
-        Assert.That(action, Is.True);
+        Assert.Multiple(() =>
+        {
+            Assert.That(action, Is.True);
+            Assert.That(secondUser.Timeline, Has.Count.EqualTo(1));
+        });
     }
 
     [Test]
@@ -65,7 +77,7 @@ public class Tests
     }
 
     [Test]
-    public void Follow_UserExists_ShouldReturnTrue()
+    public void Follow_UserExists_ShouldReturnTrueAndSubscriptionAdded()
     {
         // Arrange
         const string username = "Charlie";
@@ -79,7 +91,11 @@ public class Tests
         var action = _socialService.Follow(username, secondUsername);
 
         // Assert
-        Assert.That(action, Is.True);
+        Assert.Multiple(() =>
+        {
+            Assert.That(action, Is.True);
+            Assert.That(user.Subscriptions, Has.Count.EqualTo(1));
+        });
     }
 
     [Test]
@@ -98,7 +114,7 @@ public class Tests
     }
 
     [Test]
-    public void SendMessage_UserExists_ShouldReturnTrue()
+    public void SendMessage_UserExists_ShouldReturnTrueAndPrivateMessageAdded()
     {
         // Arrange
         const string username = "Mallory";
@@ -113,7 +129,11 @@ public class Tests
         var action = _socialService.SendMessage(username, secondUsername, message);
 
         // Assert
-        Assert.That(action, Is.True);
+        Assert.Multiple(() =>
+        {
+            Assert.That(action, Is.True);
+            Assert.That(user.PrivateMessages, Has.Count.EqualTo(1));
+        });
     }
 
     [Test]

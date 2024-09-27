@@ -1,4 +1,5 @@
 using ConsoleApp.Models;
+using Spectre.Console;
 
 namespace ConsoleApp;
 
@@ -59,17 +60,19 @@ public class SocialService
 
     public static void DisplayMenu()
     {
-        Console.WriteLine("*********************************************************************");
-        Console.WriteLine("Commands:");
-        Console.WriteLine("\t/post - Usage: Alice /post What a wonderfully sunny day!");
-        Console.WriteLine("\t\tMention a user: Bob /post @Charlie what are your plans tonight?");
-        Console.WriteLine("\t/timeline - Usage: Bob /timeline Alice");
-        Console.WriteLine("\t/follow - Usage: Charlie /follow Alice");
-        Console.WriteLine("\t/wall - Usage: Charlie /wall");
-        Console.WriteLine("\t/send_message - Usage: Mallory /send_message Alice Hi There?");
-        Console.WriteLine("\t/view_messages - Usage: Alice /view_messages");
-        Console.WriteLine("\texit - Quit the application");
-        Console.WriteLine("*********************************************************************");
+        var panel = new Panel("[bold blue]/post[/]\n- e.g. Alice /post What a wonderfully sunny day!\n" +
+                              "Mention a user: Bob /post @Charlie what are your plans tonight?\n"+
+                              "[bold blue]/timeline[/]\n- e.g. Bob /timeline Alice\n"+
+                              "[bold blue]/follow[/]\n- e.g. Charlie /follow Alice\n"+
+                              "[bold blue]/wall[/]\n- e.g. Charlie /wall\n"+
+                              "[bold blue]/send_message[/]\n- e.g. Mallory /send_message Alice Hi There?\n"+
+                              "[bold blue]/view_messages[/]\n- e.g. Alice /view_messages\n"+
+                              "[bold blue]exit[/]\n- Quit the application")
+        {
+            Header = new PanelHeader("Commands"),
+            Padding = new Padding(2,2,2,2)
+        };
+        AnsiConsole.Write(panel);
     }
 
     public bool Post(string username, string msg)

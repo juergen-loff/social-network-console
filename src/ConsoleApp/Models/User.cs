@@ -35,7 +35,7 @@ public class User(string name)
     public void PrintPrivateMessages()
     {
         Console.Clear();
-        Console.WriteLine($"Messages for {Name}\n================================================");
+        Console.WriteLine($"✉️ Messages for {Name}\n================================================");
         foreach (var message in PrivateMessages)
         {
             Console.WriteLine($"\nSender: {message.Sender.Name}\n");
